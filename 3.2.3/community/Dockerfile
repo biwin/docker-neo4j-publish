@@ -13,13 +13,13 @@ COPY ./local-package/* /tmp/
 RUN curl --fail --silent --show-error --location --remote-name ${NEO4J_URI} \
     && echo "${NEO4J_SHA256}  ${NEO4J_TARBALL}" | sha256sum -csw - \
     && tar --extract --file ${NEO4J_TARBALL} --directory /var/lib \
-    && mv /var/lib/neo4j-* /var/lib/neo4j \
+    && mv /var/lib/neo4j-* /home/neo4j/ \
     && rm ${NEO4J_TARBALL} \
-    && mv /var/lib/neo4j/data /data \
-    && ln -s /data /var/lib/neo4j/data \
+    && mv /home/neo4j/data /data \
+    && ln -s /data /home/neo4j/data \
     && apk del curl
 
-WORKDIR /var/lib/neo4j
+WORKDIR /home/neo4j/
 
 VOLUME /data
 
